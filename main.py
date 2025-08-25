@@ -1,3 +1,4 @@
+# uvicorn FastAPI:app --reload --host 0.0.0.0 --port 8080
 #from typing import Optional
 #from fastapi import FastAPI
 
@@ -11,10 +12,7 @@
 #def read_item(item_id: int, q: Optional[str] = None):
 #    return {"item_id": item_id, "q": q}
 
-
-# fast.py
-# per far partire il server usare questo su terminale
-# uvicorn FastAPI:app --reload --host 0.0.0.0 --port 8080
+#-------------------------------------------------------------------
 
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel, Field
@@ -33,7 +31,7 @@ favicon_path = f"/favicons/favicon2.ico?v={int(time.time())}"
 
 app = FastAPI(
         title="MiLavo",
-        description="Documentazioen MiLavo.",
+        description="Documentazione MiLavo.",
         version="2.0.0",
         contact={"name": "Ufficio"},
         license_info={"name": "ENTE"},
