@@ -28,7 +28,7 @@ async def proxy(request: Request):
     #headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
 
     # Mantieni solo i necessari
-    allowed_headers = { 
+    headers = { 
         k: v for k, v in request.headers.items()
         if k.lower() in ["authorization", "content-type"]
     }
