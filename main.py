@@ -13,7 +13,7 @@ app = FastAPI()
 # URL del tuo endpoint target
 TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0"
 
-@app.api_route("/creaComunicazioni", methods=["GET", "POST", "OPTIONS"])
+@app.api_route("/creaComunicazioni", methods=["GET", "POST", "HEAD", "OPTIONS"])
 async def proxy(request: Request):
 
     logger.info("=== Nuova richiesta ricevuta ===")
@@ -29,7 +29,7 @@ async def proxy(request: Request):
 
     # Mantieni solo i necessari
     allowed_headers = { 
-        k: v for k, v in incoming_headers.items() 
+        k: v for k, v in request.headers.items()
         if k.lower() in ["authorization", "content-type"]
     }
 
