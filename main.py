@@ -6,7 +6,7 @@ app = FastAPI()
 # URL del tuo endpoint target
 TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0/"
 
-@app.api_route("/creaComunicazioni", methods=["GET", "POST"])
+@app.api_route("/creaComunicazioni", methods=["GET", "POST", "OPTIONS"])
 async def proxy(path: str, request: Request):
     # Costruisci URL completo
     url = f"{TARGET_URL}/{path}"
