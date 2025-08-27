@@ -18,7 +18,6 @@ async def proxy(request: Request):
 
     logger.info("=== Nuova richiesta ===")
     logger.info("Metodo: %s", request.method)
-    logger.info("Path: %s", path)
     logger.info("Query params: %s", dict(request.query_params))
     logger.info("Headers: %s", json.dumps(dict(request.headers), indent=2))
 
