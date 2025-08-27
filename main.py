@@ -36,7 +36,7 @@ async def proxy(request: Request):
         logger.info("Body raw: %s", body.decode(errors="ignore"))
     
     # Inoltra la chiamata al target usando httpx
-    async with httpx.AsyncClient(verify=False) as client:  # verify=False per self-signed
+    async with httpx.AsyncClient(verify=False, timeout=30.0) as client:  # verify=False per self-signed
         resp = await client.request(
             method=request.method,
             url=url,
