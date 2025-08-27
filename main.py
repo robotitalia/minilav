@@ -1,5 +1,12 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request
+from fastapi.responses import Response
 import httpx
+import json
+import logging
+
+# Configurazione base del logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("proxy_app")
 
 app = FastAPI()
 
@@ -8,17 +15,26 @@ TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk
 
 @app.api_route("/creaComunicazioni", methods=["GET", "POST", "OPTIONS"])
 async def proxy(request: Request):
+
+    logger.info("=== Nuova richiesta ===")
+    logger.info("Metodo: %s", request.method)
+    logger.info("Path: %s", path)
+    logger.info("Query params: %s", dict(request.query_params))
+    logger.info("Headers: %s", json.dumps(dict(request.headers), indent=2))
+
     # Costruisci URL completo
     url = f"{TARGET_URL}/creaComunicazioni"
-    print("request: ", request)
 
     # Copia headers (escludendo host)
     headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
-    # print("Headers: ", headers)
 
     # Corpo della richiesta
     body = await request.body()
-    # print("Body: ", body)
+    try:
+        body_json = json.loads(body)
+        logger.info("Body JSON: %s", json.dumps(body_json, indent=2))
+    except:
+        logger.info("Body raw: %s", body.decode(errors="ignore"))
     
     # Inoltra la chiamata al target usando httpx
     async with httpx.AsyncClient(verify=False) as client:  # verify=False per self-signed
@@ -29,6 +45,16 @@ async def proxy(request: Request):
             content=body,
             cookies=request.cookies
         )
+
+    # Log completo della risposta
+    logger.info("--- Risposta dal target ---")
+    logger.info("Status code: %d", resp.status_code)
+    logger.info("Headers: %s", json.dumps(dict(resp.headers), indent=2))
+    try:
+        resp_json = resp.json()
+        logger.info("Body JSON: %s", json.dumps(resp_json, indent=2))
+    except:
+        logger.info("Body raw: %s", resp.text)
 
     # Crea la risposta da rimandare al client
     response = Response(
