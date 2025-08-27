@@ -11,7 +11,7 @@ logger = logging.getLogger("proxy_app")
 app = FastAPI()
 
 # URL del tuo endpoint target
-TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0/"
+TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0"
 
 @app.api_route("/creaComunicazioni", methods=["GET", "POST", "OPTIONS"])
 async def proxy(request: Request):
