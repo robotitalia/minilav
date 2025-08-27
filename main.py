@@ -25,7 +25,13 @@ async def proxy(request: Request):
     url = f"{TARGET_URL}/creaComunicazioni"
 
     # Copia headers (escludendo host)
-    headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
+    #headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
+
+    # Mantieni solo i necessari
+    allowed_headers = { 
+        k: v for k, v in incoming_headers.items() 
+        if k.lower() in ["authorization", "content-type"]
+    }
 
     # Corpo della richiesta
     body = await request.body()
