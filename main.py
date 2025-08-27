@@ -16,7 +16,7 @@ TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk
 @app.api_route("/creaComunicazioni", methods=["GET", "POST", "OPTIONS"])
 async def proxy(request: Request):
 
-    logger.info("=== Nuova richiesta ===")
+    logger.info("=== Nuova richiesta ricevuta ===")
     logger.info("Metodo: %s", request.method)
     logger.info("Query params: %s", dict(request.query_params))
     logger.info("Headers: %s", json.dumps(dict(request.headers), indent=2))
@@ -34,6 +34,13 @@ async def proxy(request: Request):
         logger.info("Body JSON: %s", json.dumps(body_json, indent=2))
     except:
         logger.info("Body raw: %s", body.decode(errors="ignore"))
+
+    logger.info("=== Inoltro richiesta ===")
+    logger.info("Metodo: %s", request.method)
+    logger.info("Query params: %s", dict(request.query_params))
+    logger.info("Headers: %s", json.dumps(dict(headers), indent=2))
+    logger.info("Body: %s", body.decode("utf-8", errors="ignore"))
+    logger.info("Chiamo target URL: %s", url)
     
     # Inoltra la chiamata al target usando httpx
     async with httpx.AsyncClient(verify=False, timeout=30.0) as client:  # verify=False per self-signed
