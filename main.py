@@ -7,14 +7,13 @@ app = FastAPI()
 TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0/"
 
 @app.api_route("/creaComunicazioni", methods=["GET", "POST", "OPTIONS"])
-async def proxy(path: str, request: Request):
+async def proxy(request: Request):
     # Costruisci URL completo
-    url = f"{TARGET_URL}/{path}"
+    url = f"{TARGET_URL}/creaComunicazioni"
 
     # Copia headers (escludendo host)
     headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
-    
-    
+    print("Headers: " + headers)
     # Corpo della richiesta
     body = await request.body()
     console.log("Body: "+body)
