@@ -13,10 +13,10 @@ async def proxy(request: Request):
 
     # Copia headers (escludendo host)
     headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
-    print("Headers: " + headers)
+    print("Headers: ", headers)
     # Corpo della richiesta
     body = await request.body()
-    console.log("Body: "+body)
+    console.log("Body: ", body)
     
     # Inoltra la chiamata al target usando httpx
     async with httpx.AsyncClient(verify=False) as client:  # verify=False per self-signed
