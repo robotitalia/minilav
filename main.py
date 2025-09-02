@@ -23,8 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.api_route("/creaComunicazioni", methods=["GET", "POST"])
+@app.api_route("/creaComunicazioni", methods=["OPTIONS", "POST"])
 async def proxy(request: Request):
+    if request.method == "OPTIONS":
+        return Response(status_code=200)
 
     logger.info("=== Nuova richiesta ricevuta ===")
     logger.info("Metodo: %s", request.method)
