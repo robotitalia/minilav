@@ -1,5 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import Response
+from fastapi.middleware.cors import CORSMiddleware
+
 import httpx
 import json
 import logging
@@ -13,7 +15,15 @@ app = FastAPI()
 # URL del tuo endpoint target
 TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0"
 
-@app.api_route("/creaComunicazioni", methods=["GET", "POST", "HEAD", "OPTIONS"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # meglio specificare i domini consentiti
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.api_route("/creaComunicazioni", methods=["GET", "POST"])
 async def proxy(request: Request):
 
     logger.info("=== Nuova richiesta ricevuta ===")
@@ -27,7 +37,7 @@ async def proxy(request: Request):
     # Copia headers (escludendo host)
     #headers = {k: v for k, v in request.headers.items() if k.lower() != "host"}
 
-    # Mantieni solo i necessari
+    # Mantieni solo i necessariC
     headers = { 
         k: v for k, v in request.headers.items()
         if k.lower() in ["authorization", "content-type"]
