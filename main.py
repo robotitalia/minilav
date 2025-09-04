@@ -15,15 +15,14 @@ app = FastAPI()
 # URL del tuo endpoint target
 TARGET_URL = "https://apistg.lavoro.gov.it/InformationDelivery/SmartWorking_Bulk/Rest/1.0"
 
-app.add_middleware(
-    CORSMiddleware,
+app.add_middleware(CORSMiddleware,
     allow_origins=["*"],  # meglio specificare i domini consentiti
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.api_route("/creaComunicazioni", methods=["GET"])
+@app.api_route("/", methods=["GET"])
 async def proxy(request: Request):
     if request.method == "GET":
         return Response(status_code=200,content="Alive")
