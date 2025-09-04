@@ -25,7 +25,7 @@ app.add_middleware(CORSMiddleware,
 @app.api_route("/", methods=["GET"])
 async def proxy(request: Request):
     if request.method == "GET":
-        return Response(status_code=200,content="Alive")
+        return Response(status_code=200,content="{"Alive"}")
 
 
 @app.api_route("/creaComunicazioni", methods=["OPTIONS", "POST"])
