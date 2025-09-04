@@ -24,6 +24,7 @@ app.add_middleware(
 )
 
 @app.api_route("/creaComunicazioni", methods=["GET"])
+async def proxy(request: Request):
     if request.method == "GET":
         return Response(status_code=200,content="Alive")
 
